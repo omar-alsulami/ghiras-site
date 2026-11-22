@@ -26,47 +26,68 @@
 <main class="doc">
   <div class="wrap">
     <h1>Privacy policy</h1>
-    <p class="meta">Last updated: 10 November 2026</p>
-<div class="summary"><p>Your dhikr, prayer, and Quran records stay on your device. We send an anonymous usage signal and the structure of wirds you build — by catalogue identifiers, not text. If you choose to write to us from inside the app, we receive that message and whatever you attach to it.</p></div>
-<p><strong>One explicit exception:</strong> if you write your own dhikr, we keep a copy of <strong>its text</strong> to improve the library. This never applies to library adhkar; we already have their text.</p>
-<h2>What We Collect</h2>
-<p><strong>1. Usage signal — once per app open, throttled to 30 minutes.</strong></p>
-<div class="table-wrap"><table><thead><tr><th>Field</th><th>Why</th></tr></thead><tbody><tr><td>Install identifier (see below)</td><td>Count installs and active users</td></tr><tr><td>App version and build number</td><td>Know which release people are on</td></tr><tr><td>Platform (<code>android</code> / <code>ios</code>)</td><td>Split the numbers by platform</td></tr><tr><td>Whether notification permission is granted</td><td>Know if reminders can actually fire</td></tr><tr><td>Whether you did <strong>any</strong> dhikr today (true/false)</td><td>Know if the app is used, not just opened</td></tr><tr><td>Screen size in logical points (<code>412x915</code>)</td><td>Fix layouts on the screens where text gets cut off</td></tr><tr><td>The app language you chose (<code>ar</code> / <code>en</code>)</td><td>Know how many people use each language</td></tr><tr><td>Which Ghiraas notification reached you, whether you opened it, whether you pressed its button</td><td>Know whether our messages arrive and are read</td></tr></tbody></table></div>
-<div class="note"><p>This signal is <strong>required</strong>, not optional — see below.</p></div>
-<p><strong>2. Crash reports — none. They stay on your device.</strong></p>
-<p>Ghiraas writes crash traces to a file in its own private storage and reads them back locally. Nothing is uploaded. The app does ship the Sentry library, but remote reporting requires a server address supplied at build time, and no published build of Ghiraas supplies one.</p>
-<p>If that ever changes, this policy and the Play Data Safety declaration will be updated together, before the build ships.</p>
-<p><strong>3. Wirds you create.</strong> When you build a custom wird we send its identifier, <strong>the name you gave it</strong>, and its structure — the <strong>catalogue identifiers</strong> of its adhkar with the repetition count you chose for each. This tells us which adhkar people choose and how they shape a wird, so we can improve the library.</p>
-<p><strong>4. Adhkar you write yourself.</strong> If you add a dhikr that is not in the app's library, we send <strong>its text</strong> as you wrote it, with a random identifier and the repetition count you chose.</p>
-<div class="note"><p><strong>Why text here only?</strong> Because we do not have it. Library adhkar already have their text on our side, so the identifier suffices; what you write tells us nothing from an identifier alone.</p><p><strong>What we do with it:</strong> we keep a copy to improve the dhikr library, and we may add it there for everyone. Either way your dhikr works immediately on your device — there is no waiting and no approval step.</p><p>The text of a library dhikr is never sent. The condition is a property of the dhikr record itself, and an automated test guards against leaks.</p></div>
-<p><strong>5. Custom Quran wirds you create.</strong> Surah number, the ayah range you chose, and the schedule (daily / Friday / before sleep), with the name you gave it.</p>
-<div class="note"><p>This is the <strong>wird you defined</strong> — not what you have read. Your reading positions, progress, and logs are never sent.</p></div>
-<p><strong>6. Version check — a read, not a report.</strong> Once per app open (and at most every 30 minutes when you return to the app), Ghiraas asks our own server one question: <em>what is the oldest app build still supported on this platform?</em> The request carries <strong>only the word <code>android</code> or <code>ios</code></strong> — no install identifier, no version, nothing about you — and the comparison happens on your device. If your build is older than the supported minimum, the app shows an update screen instead of opening.</p>
-<div class="note"><p>Like any request, it reaches our server with your IP address, which we do not store or use to identify you. This one is <strong>not</strong> tied to the diagnostics setting, because it carries no data about you and exists to stop a broken release from staying in use. <strong>If there is no network, nothing is blocked</strong>: the app opens normally offline, always.</p></div>
-<p><strong>7. Messages you send us — optional, only when you write.</strong> From <strong>Contact us</strong> inside the app you can send a suggestion or report a problem. We then receive:</p>
-<ul><li>the type (suggestion / problem) and <strong>the text you wrote</strong>;</li><li>diagnostic lines <strong>shown to you before sending</strong> — app version, operating system and its version, device maker and model, and whether exact alarms, notifications, and unrestricted battery are on;</li><li><strong>images or videos you choose to attach</strong> (up to 5), stored privately;</li><li>your install identifier, so our reply can reach you inside the app.</li></ul>
-<p>Our replies and your follow-ups form a conversation that the app fetches when you open it — there is no push service. We record <strong>when you read</strong> a reply, and we may compare it with the time of your last usage signal, only to know whether a reply has reached you. Nothing here is sent unless you press send, and none of it is shared with anyone. To have a conversation deleted, ask us in the same conversation.</p>
+    <p class="meta">Last updated: 22 November 2026</p>
+<div class="summary"><p>Your dhikr, prayers and Quran reading stay on your device. We send an anonymous usage signal and the structure of the bundles you create. If you create an account for sync, what you choose to sync is uploaded to your account alone, and you can delete it at any time.</p></div>
+<div class="note"><p><strong>What changed.</strong> We added an <strong>optional</strong> account for moving your data between your devices, and describe what it uploads under “Account &amp; sync”. If you do not create an account, nothing changes for you.</p></div>
+
+<h2>What we collect</h2>
+<p><strong>1. An anonymous usage signal</strong>, when you open the app, at most once every half hour.</p>
+<div class="table-wrap"><table><thead><tr><th>What is sent</th><th>Why</th></tr></thead><tbody>
+<tr><td>Install identifier (see below)</td><td>Count installs and active users</td></tr>
+<tr><td>App version</td><td>Know which versions people use</td></tr>
+<tr><td>System (Android or iOS)</td><td>Split the numbers by system</td></tr>
+<tr><td>Whether notifications are allowed</td><td>Know whether reminders can arrive at all</td></tr>
+<tr><td>Whether you said any dhikr today (yes or no)</td><td>Know the app is used, not just opened</td></tr>
+<tr><td>Screen size</td><td>Fix layouts on screens where text gets cut off</td></tr>
+<tr><td>The app language you chose</td><td>Know how many people use each language</td></tr>
+<tr><td>Which Ghiraas notice reached you, and whether you opened it</td><td>Know whether our messages arrive and are read</td></tr>
+</tbody></table></div>
+<p>The daily “yes or no” is a single answer: we do not know how much you said, which dhikr, or when.</p>
+
+<p><strong>2. App crashes: nothing.</strong> If the app crashes, the trace is kept on your device only and is not sent to us. If that ever changes, we will update this page before releasing the version that changes it.</p>
+
+<p><strong>3. Bundles you create.</strong> When you create a custom bundle we send <strong>the name you gave it</strong> and what it contains: which library adhkar you chose and how many times each is repeated. This tells us which adhkar people choose, so we can improve the library.</p>
+
+<p><strong>4. Adhkar you write yourself.</strong> If you add a dhikr that is not in the app’s library, we send <strong>its text</strong> as you wrote it, with the repeat count you chose. We keep a copy to improve the library, and may add it there for everyone. Your dhikr works for you immediately either way.</p>
+<div class="note"><p>The text of library adhkar is never sent; we already have it.</p></div>
+
+<p><strong>5. Custom Quran wirds.</strong> The surah and ayat you chose, the schedule (daily, Friday, or before sleep), and the name you gave it. This is what you defined, not what you have read.</p>
+
+<p><strong>6. Version check.</strong> When you open the app, Ghiraas asks our server for the oldest version still supported, so it can invite you to update if yours is too old. The request carries nothing about you, and without a connection the app opens as usual.</p>
+
+<p><strong>7. Your messages to us: optional, and only when you write.</strong> From “Support &amp; feedback” in the app you can send a suggestion or report a problem. We receive:</p>
+<ul><li>The type (suggestion or problem) and <strong>the text you wrote</strong>;</li><li>Device information <strong>shown to you before sending</strong>: app version, operating system, device model, and the state of notifications and alarms;</li><li>Any photos or videos you choose to attach (up to five);</li><li>The install identifier, so our reply reaches you in the app.</li></ul>
+<p>Nothing here is sent unless you tap “Send”, and none of it is shared with anyone. We note when you read our reply, to know it reached you. To have a conversation deleted, ask in it.</p>
+
+<h2>Account &amp; sync (optional)</h2>
+<p>The app works fully without an account. If you create one from Settings → Account &amp; sync:</p>
+<ul><li><strong>Your email address</strong>: for signing in only. We send it a one-time sign-in code, never other mail, and there is no password.</li><li><strong>What syncs</strong>: your mushaf bookmarks and their categories, your notes, your reading position, and your khatmah and reading history. If we add anything else, we will list it here first.</li><li>This data belongs <strong>to your account alone</strong>: no other user can read it, and we do not use it for statistics or for anything other than moving it between your devices.</li><li><strong>Deleting it</strong>: Settings → Account &amp; sync → Delete account removes the account and everything uploaded to it immediately. See <a href="/en/delete-account/">Delete your account</a>.</li></ul>
+
 <h2>The install identifier</h2>
-<p>A value derived from a device-provided identifier — <code>ANDROID_ID</code> on Android, a Keychain-stored UUID on iOS — mixed with a Ghiraas-specific salt and hashed with SHA-256. The raw device value never leaves your device, and the hash cannot be linked to any other app's identifier.</p>
-<p><strong>It is deliberately persistent:</strong> it survives uninstalling and reinstalling Ghiraas, so reinstalling does not count you as a new person. It resets on a factory reset.</p>
-<p><strong>On the daily activity flag.</strong> It is a single anonymous yes/no — never how many, never which dhikr, never at what time. We can see that a day was active; we cannot see what you did in it.</p>
+<p>An anonymous code derived from your device in a way that cannot be reversed: it does not reveal who you are or which device you use, and cannot be linked to any other app.</p>
+<p>It is stable on purpose: it survives uninstalling and reinstalling, so a reinstall is not counted as a new user. A factory reset changes it. It is not linked to your account if you create one.</p>
+
 <h2>What we never collect</h2>
-<p>The text of any dhikr <strong>from our library</strong> (only adhkar you write yourself), your counts, your streaks, your Quran reading positions, your prayer city or coordinates, your name, email, phone, contacts, advertising ID, or precise location. Your device model is sent only inside a message you choose to send us (section 7), and you see it first. No advertising SDKs. No social tracking.</p>
-<h2>Is it optional?</h2>
-<p><strong>No.</strong> The usage signal is part of the app and cannot be switched off — it is required, not optional. What it contains is listed above and is deliberately minimal: no counts, no dhikr text, no identity, no location. Settings → Privacy states this in the app.</p>
-<p>If you object to it, the remedy is not to install Ghiraas.</p>
-<h2>Data Storage</h2>
-<p>Everything else — dhikr logs, bundles, settings, Quran progress, achievements, prayer city — is stored locally using Isar, an embedded on-device database.</p>
+<p>The text of any library dhikr, your counters, your city or location, your name, phone number or contacts, or your advertising ID. We do not collect your email or your reading unless you create an account for sync, as described above. There are no ads in the app and no social-media tracking.</p>
+
+<h2>Is the signal optional?</h2>
+<p>The usage signal is part of the app and cannot be turned off, which is why we keep it to the minimum: no counters, no dhikr text, no identity, no location. The account and messages to us are optional.</p>
+
+<h2>Where your data is kept</h2>
+<p>Dhikr logs, bundles, settings, Quran progress, achievements and your prayer city are kept on your device, inside the app.</p>
+<p>What reaches us (the signal, messages, and account data if you create one) is kept with a cloud hosting provider that processes it on our behalf only, not for its own purposes. Sign-in codes are sent through an email provider. We do not sell your data or share it with advertisers or analytics companies.</p>
+
 <h2>Permissions</h2>
-<ul><li><strong>Notifications</strong> — prayer and dhikr reminders, controlled in settings.</li><li><strong>Exact alarms</strong> — so reminders land at the prayer minute, not near it.</li><li><strong>Approximate location (optional, on tap only)</strong> — prayer times are computed from a city you pick from a list. If you tap <strong>"Use my location"</strong>, Ghiraas asks once for <em>approximate</em> location (Android <code>ACCESS_COARSE_LOCATION</code>; iOS "while using", reduced accuracy), reads it a single time, rounds it to about 1 km, and saves it on your device in place of a city. It is never sent anywhere, never read in the background, and never read again unless you tap the button again. Picking a city from the list needs no permission at all.</li><li><strong>Do Not Disturb access (Android, optional)</strong> — only if you turn on "Silent after the adhan". Ghiraas then turns on Do Not Disturb (alarms only) for the minutes you chose after each selected prayer, and turns it off afterwards. It reads and changes the Do Not Disturb state and ringer mode only — nothing about your calls, messages, or notifications — and you can revoke it in system settings. On Android 15+ this appears as a "Ghiraas" mode in Settings › Modes.</li><li><strong>Vibration</strong> — haptic feedback on counter taps.</li></ul>
-<h2>Third Parties</h2>
-<p><strong>One.</strong> Everything described above is stored in <strong>Supabase</strong> (a managed PostgreSQL host) in a project we control; Supabase processes this data on our behalf and does not receive it for its own purposes. No Firebase, no Mixpanel, no crash-reporting service, no advertising or analytics SDKs.</p>
+<ul><li><strong>Notifications</strong>: for prayer and dhikr reminders, controlled in settings.</li><li><strong>Exact alarms</strong>: so a reminder lands at the prayer time itself, not near it.</li><li><strong>Approximate location</strong> (optional): prayer times come from a city you pick from a list, which needs no permission. If you tap “Use my location”, Ghiraas reads an approximate location once and saves it on your device in place of the city. It is not sent anywhere and is never read in the background.</li><li><strong>Do Not Disturb</strong> (Android, optional): only if you turn on “Silent after the adhan”. Ghiraas turns Do Not Disturb on after the prayer for the time you chose, then off again, and sees nothing of your calls or messages. You can revoke it in your device settings at any time.</li><li><strong>Vibration</strong>: haptic feedback when you tap the counter.</li></ul>
+
 <h2>Children</h2>
-<p>Ghiraas is suitable for all ages. We collect no personal information from anyone, including children — other than what someone chooses to write in a message to us.</p>
+<p>Ghiraas is suitable for all ages and needs no personal information. Nothing that identifies anyone reaches us unless they choose to give it: an email for an optional account, or a message to us.</p>
+
 <h2>Changes</h2>
-<p>If this policy changes, we update this document and note it in the app.</p>
+<p>If this policy changes, we update this page and its date, and point it out in the app.</p>
+
 <h2>Contact</h2>
-<p>For questions, email <a href="mailto:info@ghiras-app.com">info@ghiras-app.com</a>, or write to us from inside the app (Settings → Support &amp; feedback).</p>
+<p>Questions: email <a href="mailto:info@ghiras-app.com">info@ghiras-app.com</a>, or write from the app (Settings → Support &amp; feedback).</p>
 
   </div>
 </main>

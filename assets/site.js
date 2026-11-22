@@ -78,10 +78,9 @@
   shotsFor(current());
 
   // ── حقلُ الجزيئات ─────────────────────────────────────────────────────
-  // منقولٌ عن lib/core/widgets/dhikr_particle_field.dart: حلقاتٌ من نقاطٍ حول
+  // حلقاتٌ من نقاطٍ حول
   // مركز، تومض وتتموّج، وتدخل من المركز إلى الخارج (الداخليّةُ أوّلاً)، وموجةٌ
   // تتمدّد من المركز كما مع كلّ تسبيحةٍ في العدّاد، ثمّ تعود النقاطُ بنابض.
-  // الثوابتُ نفسُها؛ وما تغيّر مكتوبٌ بجانبه.
   var hero = document.querySelector('.hero');
   var hub = hero && hero.querySelector('.shot');
   if (!hero || !hub) return;
@@ -90,13 +89,13 @@
     springK: 0.045, friction: 0.86,
     push: 24, forceScale: 0.045, waveBoost: 1.4,
     ringSpacing: 14, pointSpacing: 16, pointSize: 1.8,
-    maxParticles: 900,         // التطبيق 850 على شاشة هاتف؛ هنا عرضُ صفحة
+    maxParticles: 900,
     twinkleAmp: 0.35, twinkleSpeed: 0.9, driftAmp: 2.4,
     waveSpeed: 620, waveWidth: 38, waveDecay: 0.55, waveGlow: 0.45, maxWaves: 4,
     entranceDur: 1.4, entranceStagger: 0.35,
     maxAlpha: 0.55,
     autoWave: 3.2,             // ثوانٍ بين «تسبيحةٍ» وأختها حين لا يلمس أحد
-    touchRadius: 110, touchForce: 46  // دفعُ المؤشّر: --wf-touch-* في نظام الساعة
+    touchRadius: 110, touchForce: 46  // دفعُ المؤشّر
   };
 
   var reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
@@ -133,7 +132,7 @@
     hubR = Math.min(h.width, h.height) / 2 * 0.92;
     var rim = Math.hypot(Math.max(cx, W - cx), Math.max(cy, H - cy));
 
-    // تقديرُ العدد ثمّ تخفيفٌ بجذر النسبة — كما في التطبيق.
+    // تقديرُ العدد ثمّ تخفيفٌ بجذر النسبة.
     var estimate = 0;
     for (var rr = hubR; rr < rim; rr += K.ringSpacing) estimate += Math.floor(2 * Math.PI * rr / K.pointSpacing);
     var thin = estimate > K.maxParticles ? Math.sqrt(K.maxParticles / estimate) : 1;
@@ -201,8 +200,7 @@
     for (var i = 0; i < parts.length; i++) {
       var p = parts[i];
       // يخفت كلّما ابتعد عن المركز، فيبقى الحقلُ هالةً لا ورقاً منقّطاً.
-      // التطبيقُ يرسم على أرضيّةٍ داكنةٍ صغيرة؛ هنا صفحةٌ عريضةٌ قد تكون بيضاء،
-      // فيُضخَّم بـ--particle-boost ويخفت أبطأ مع البعد (1.1 لا 1.6).
+      // وعلى الأرضيّة البيضاء يُضخَّم بـ--particle-boost.
       var a = K.maxAlpha * boost * Math.pow(1 - p.t, 1.1);
       if (!stat) a *= 1 + Math.sin(t * K.twinkleSpeed * Math.PI + p.phase) * K.twinkleAmp;
       var x = p.x, y = p.y;

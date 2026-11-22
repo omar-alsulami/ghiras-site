@@ -1,6 +1,4 @@
-/* غِراس — موقع التطبيق. الألوانُ والخطُّ والزوايا من وِجهة «منصّات» في التطبيق
-   (lib/core/theme/directions/direction_platform.dart): أبيضُ الورق، وأخضرُ
-   النظام الموحَّد، ورماديّاتٌ محايدة، وIBM Plex Sans Arabic خطّاً واحداً. */
+/* غِراس — الألوانُ والخطُّ والزوايا. */
 :root {
   --bg: #F9FAFB;
   --bg-soft: #F3F4F6;
@@ -88,7 +86,7 @@ body, .top, .feature, .support-card { transition: background-color .25s ease, co
   :root:not([data-theme="light"]) .theme-btn .moon { display: block; }
 }
 
-/* حقلُ الجزيئات — منقولٌ عن DhikrParticleField في التطبيق */
+/* حقلُ الجزيئات */
 .hero { position: relative; overflow: hidden; }
 .hero::before {
   content: ""; position: absolute; inset: 0; pointer-events: none;
@@ -103,7 +101,7 @@ body, .top, .feature, .support-card { transition: background-color .25s ease, co
   .hero::before { background: radial-gradient(circle at 50% 78%, var(--glow), transparent 55%); }
 }
 
-/* نقاطُ بطاقة التقويم في التطبيق — على البطاقات */
+/* نقاطُ البطاقات */
 .feature, .support-card {
   background-image: radial-gradient(var(--dots) 1px, transparent 1.2px);
   background-size: 14px 14px;
