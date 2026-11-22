@@ -70,7 +70,16 @@ body, .top, .feature, .support-card { transition: background-color .25s ease, co
   background: var(--card); color: var(--ink-soft); display: grid; place-items: center; cursor: pointer; padding: 0;
 }
 .theme-btn:hover { color: var(--ink); }
-.theme-btn svg { width: 18px; height: 18px; }
+.theme-btn svg { width: 18px; height: 18px; animation: icon-in .6s cubic-bezier(.22, 1, .36, 1); }
+@keyframes icon-in { from { transform: rotate(-120deg) scale(.3); opacity: 0; } }
+
+/* انتقالُ الوضع: الدائرةُ يرسمها site.js على اللقطة الجديدة، فلا تلاشيَ افتراضيّ. */
+::view-transition-old(root), ::view-transition-new(root) { animation: none; mix-blend-mode: normal; }
+::view-transition-new(root) { z-index: 2; }
+.vt-theme, .vt-theme * { transition: none !important; }
+@media (prefers-reduced-motion: reduce) {
+  .theme-btn svg { animation: none; }
+}
 .theme-btn .moon { display: none; }
 :root[data-theme="dark"] .theme-btn .sun { display: none; }
 :root[data-theme="dark"] .theme-btn .moon { display: block; }

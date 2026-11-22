@@ -9,19 +9,73 @@
   function current() {
     return root.getAttribute('data-theme') || (media.matches ? 'dark' : 'light');
   }
-  function setTheme(t) {
+  var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+  // لقطاتُ التطبيق تتبع وضعَ الصفحة: <img data-light="…"> يحمل نسخةَ الفاتح،
+  // وsrc الأصليُّ هو الداكن. ما لا data-light له يبقى كما هو.
+  function shotsFor(t) {
+    var imgs = document.querySelectorAll('img[data-light]');
+    var waits = [];
+    imgs.forEach(function (img) {
+      if (!img.dataset.dark) img.dataset.dark = img.getAttribute('src');
+      var want = t === 'light' ? img.dataset.light : img.dataset.dark;
+      if (img.getAttribute('src') !== want) {
+        img.setAttribute('src', want);
+        // ننتظر فكَّ الصورة كي تدخل لقطةَ الانتقال الجديدةَ كاملةً لا فارغة.
+        if (img.decode) waits.push(img.decode().catch(function () {}));
+      }
+    });
+    return Promise.all(waits);
+  }
+
+  function apply(t, save) {
     root.setAttribute('data-theme', t);
-    try { localStorage.setItem('ghiras-theme', t); } catch (e) { /* خاصٌّ أو محجوب: يبقى للجلسة */ }
+    if (save) {
+      try { localStorage.setItem('ghiras-theme', t); } catch (e) { /* خاصٌّ أو محجوب: يبقى للجلسة */ }
+    }
     var meta = document.querySelector('meta[name="theme-color"]');
     if (meta) meta.setAttribute('content', t === 'dark' ? '#0D121C' : '#F9FAFB');
     document.dispatchEvent(new Event('ghiras-theme'));
   }
-  document.querySelectorAll('.theme-btn').forEach(function (b) {
-    b.addEventListener('click', function () { setTheme(current() === 'dark' ? 'light' : 'dark'); });
-  });
+
+  // الانتقال: دائرةٌ تنكشف من الزرّ وتتّسع حتّى أبعدِ زاويةٍ في الشاشة، والصفحةُ
+  // الجديدةُ (بلقطاتها) داخلها. وحين يغيب View Transitions أو يُطلب تقليلُ
+  // الحركة: تبديلٌ مباشر تليّنه انتقالاتُ الألوان في CSS.
+  var switching = false;
+  function toggle(e) {
+    if (switching) return;
+    var next = current() === 'dark' ? 'light' : 'dark';
+    if (!document.startViewTransition || reduceMotion.matches) {
+      apply(next, true); shotsFor(next);
+      return;
+    }
+    var b = e.currentTarget.getBoundingClientRect();
+    var x = b.left + b.width / 2, y = b.top + b.height / 2;
+    var r = Math.hypot(Math.max(x, innerWidth - x), Math.max(y, innerHeight - y));
+    switching = true;
+    root.classList.add('vt-theme'); // يوقف انتقالاتِ الألوان كي تُلتقط الحالةُ النهائيّة
+    var vt = document.startViewTransition(function () {
+      apply(next, true);
+      return shotsFor(next);
+    });
+    vt.ready.then(function () {
+      root.animate(
+        { clipPath: ['circle(0px at ' + x + 'px ' + y + 'px)', 'circle(' + r + 'px at ' + x + 'px ' + y + 'px)'] },
+        { duration: 750, easing: 'cubic-bezier(.22, 1, .36, 1)', pseudoElement: '::view-transition-new(root)' }
+      );
+    }).catch(function () {});
+    vt.finished.finally(function () {
+      root.classList.remove('vt-theme');
+      switching = false;
+      document.dispatchEvent(new Event('ghiras-theme-landed'));
+    });
+  }
+  document.querySelectorAll('.theme-btn').forEach(function (b) { b.addEventListener('click', toggle); });
   media.addEventListener && media.addEventListener('change', function () {
+    shotsFor(current());
     document.dispatchEvent(new Event('ghiras-theme'));
   });
+  shotsFor(current());
 
   // ── حقلُ الجزيئات ─────────────────────────────────────────────────────
   // منقولٌ عن lib/core/widgets/dhikr_particle_field.dart: حلقاتٌ من نقاطٍ حول
@@ -190,6 +244,8 @@
     resizeT = setTimeout(function () { build(); if (!running) draw(true); }, 120);
   });
   document.addEventListener('ghiras-theme', function () { readColor(); if (!running) draw(true); });
+  // حين يستقرّ الوضعُ الجديد تخرج موجةٌ من الهاتف، كأنّ التطبيقَ ردّ على الصفحة.
+  document.addEventListener('ghiras-theme-landed', function () { if (running) { sinceWave = 0; emitWave(); } });
   document.addEventListener('visibilitychange', function () { document.hidden ? stop() : start(); });
   reduce.addEventListener && reduce.addEventListener('change', function () { stop(); start(); });
   if ('IntersectionObserver' in window) {
